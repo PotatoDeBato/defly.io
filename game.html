@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <link rel="shortcut icon" href="https://defly.io/favicon/android-icon-192x192.png">
+    <title>defly.io</title>
+    <style>
+        body {
+            position: absolute;
+            inset: 0;
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        iframe {
+            position: absolute;
+            inset: 0;
+            margin: 0;
+            width: 100%;
+            height: 100%;
+        }
+        input {
+            position: absolute;
+            top: 45%;
+            left: 32%;
+            width: 30%;
+            height: 5%;
+            padding: 30px;
+            font-size: 30px;
+        }
+        button {
+            position: absolute;
+            top: 60%;
+            left: 32%;
+            width: 33.5%;
+            height: 5%;
+            font-size: 30px;
+        }
+    </style>
+    <body>
+        <input id="input" value="https://defly.io/?skin-editor#1-use4:3005">
+        <button id="button" onclick="activateIframe()">Play</button>
+    </body>
+    <script>
+        function activateIframe() {
+            var iframe = document.createElement('iframe');
+            var input = document.getElementById("input");
+            var button = document.getElementById("button")
+            console.log(input)
+            iframe.src = input.value;
+            iframe.muted = true;
+            input.style.display = "none";
+            button.style.display = "none";
+            iframe.style.border = "none";
+            document.body.appendChild(iframe);
+        }
+    </script>
+</html>
