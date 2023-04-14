@@ -88,10 +88,16 @@
             button.style.display = "none";
             iframe.style.border = "none";
             document.body.appendChild(iframe);
+
+            window.localStorage.setItem("recentVisitedSite", value)
         }
         function changeInput(txt) {
             value = txt;
             activateIframe();
         }
+
+        window.addEventListener("load", function() {
+            input.value = window.localStorage.getItem("recentVisitedSite");
+        });
     </script>
 </html>
