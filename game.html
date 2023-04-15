@@ -15,6 +15,7 @@
             height: 100%;
             overflow: hidden;
             background: rgb(7, 4, 37);
+            animation: fade 1s linear;
         }
         iframe {
             position: absolute;
@@ -70,10 +71,14 @@
             width: 9.8vw;
             height: 8vh;
         }
-        #suggestions {
+        .suggestions {
             position: absolute;
             left: 35vw;
             top: 67vh;
+        }
+        #two {
+            position: relative;
+            top: 58.5vh;
         }
         h1 {
             font-family: 'Anuphan', sans-serif;
@@ -117,12 +122,56 @@
             position: relative;
             top: 30vh;
         }
+        #socials {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+        }
+        #socials img {
+            width: 60px;
+            height: 60px;
+            margin: 5px;
+        }
+        #pfp {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+        }
+        h2 {
+            color:rgb(216, 176, 230);
+            position: absolute;
+            top: 60px;
+            left: 220px;
+            font-size: 30px;
+        }
+        #pfp:hover + h2 {
+            animation: rotate 0.1s linear;
+        }
         @keyframes spin {
             0% {
                 transform: rotate(0deg);
             }
             100% {
                 transform: rotate(360deg);
+            }
+        }
+        @keyframes fade {
+            0% {
+                opacity: 0;
+            }
+        }
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+            50% {
+                transform: rotate(1deg);
+            }
+            100% {
+                transform: rotate(0deg);
             }
         }
     </style>
@@ -132,11 +181,22 @@
             <h1>delfy.<span>hub</span></h1>
             <input id="input" value="https://defly.io/#1-use4:3005">
             <button id="button" onclick="activateIframe()">Play</button>
-            <div id="suggestions">
+            <div class="suggestions">
                 <button class="suggest" onclick="changeInput('https\://defly.io/#1-use4:3005')">teams use3005</button>
                 <button class="suggest" onclick="changeInput('https\://defly.io/#1-use4:3005?skin-editor')">teams use3005 + se</button>
-                <button class="suggest" onclick="changeInput('https\://defly.io/#2-use4:3002')">defuse use3005</button>
+                <button class="suggest" onclick="changeInput('https\://defly.io/#1-use4:3015')">teams use3015</button>
             </div>
+            <div class="suggestions" id="two">
+                <button class="suggest" onclick="changeInput('https\://defly.io/#2-use4:3002')">defuse use3002</button>
+                <button class="suggest" onclick="changeInput('https\://defly.io/?playEpicTourney')">elite tourney</button>
+                <button class="suggest" onclick="changeInput('https\://defly.io/#4-use4:3004')">1v1 arena use3004</button>
+            </div>
+            <div id="socials">
+                <a href="https://www.youtube.com/channel/UCmmL-rF2yfxAzVtesBZtovw" target="_blank"><img src="https://www.iconpacks.net/icons/2/free-youtube-logo-icon-2431-thumb.png"></a>
+                <a href="https://discord.com/invite/NXuuhv7" target="_blank"><img src="https://static.vecteezy.com/system/resources/previews/006/892/625/original/discord-logo-icon-editorial-free-vector.jpg"></a>
+            </div>
+            <img id="pfp" src="https://images-ext-2.discordapp.net/external/wL4zcdhV6Z3oEJFK2v6-GWpmpVh6rsjn8a1n-RhaWBs/%3Fsize%3D4096/https/cdn.discordapp.com/avatars/912007261650571325/1193003e6e168d2767c8f59a91e51de0.png?width=538&height=538">
+            <h2>Created by Potato!#3728</h2>
         </div>
         <div id="loading">
             <h1>Loading...</h1>
