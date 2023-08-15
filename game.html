@@ -298,13 +298,12 @@
 
         toggleElement.addEventListener("change", function() {
             toggle = toggleElement.checked;
-            document.streamMode = toggle;
-            console.log(toggle)
+            window.localStorage.setItem("stream-mode", toggle);
         });
 
         window.addEventListener("load", function() {
             input.value = window.localStorage.getItem("recentVisitedSite");
-            toggle = document.streamMode;
+            toggle = window.localStorage.getItem("stream-mode");
         });
     </script>
 </html>
