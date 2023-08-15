@@ -131,6 +131,8 @@
             width: 60px;
             height: 60px;
             margin: 5px;
+            position: relative;
+            top: 20px;
         }
         #pfp {
             position: absolute;
@@ -149,6 +151,58 @@
         }
         #pfp:hover + h2 {
             animation: rotate 0.1s linear;
+        }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+            bottom: 17px;
+            left: 3px;
+        }
+        .switch input { 
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+        input:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+        input:checked + .slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+        .slider.round {
+            border-radius: 34px;
+        }
+        .slider.round:before {
+            border-radius: 50%;
         }
         @keyframes spin {
             0% {
@@ -178,7 +232,7 @@
     <body>
         <img id="background" src="https://as1.ftcdn.net/v2/jpg/02/33/47/14/1000_F_233471486_WIOAYpd2Rm1rWiVHcSwprEgCTTdaY6gu.jpg">
         <div id="start">
-            <h1>defly<span>hub</span></h1>
+            <h1>defly.<span>hub</span></h1>
             <input id="input" value="https://defly.io/#1-use4:3005">
             <button id="button" onclick="activateIframe()">Play</button>
             <div class="suggestions">
@@ -195,9 +249,14 @@
                 <a href="https://www.youtube.com/channel/UCmmL-rF2yfxAzVtesBZtovw" target="_blank"><img src="https://www.iconpacks.net/icons/2/free-youtube-logo-icon-2431-thumb.png"></a>
                 <a href="https://discord.com/invite/NXuuhv7" target="_blank"><img src="https://static.vecteezy.com/system/resources/previews/006/892/625/original/discord-logo-icon-editorial-free-vector.jpg"></a>
                 <a href="https://defly.io/" target="_blank"><img src="https://defly.io/favicon/android-icon-192x192.png"></a>
+                <label class="switch">
+                    <input type="checkbox" id="toggle">
+                    <span class="slider round"></span>
+                </label>
             </div>
             <img id="pfp" src="https://images-ext-2.discordapp.net/external/wL4zcdhV6Z3oEJFK2v6-GWpmpVh6rsjn8a1n-RhaWBs/%3Fsize%3D4096/https/cdn.discordapp.com/avatars/912007261650571325/1193003e6e168d2767c8f59a91e51de0.png?width=538&height=538">
             <h2>Created by Potato!#3728</h2>
+            
         </div>
         <div id="loading">
             <h1>Loading...</h1>
@@ -210,7 +269,9 @@
         var input = document.getElementById("input");
         var button = document.getElementById("button");
         var loading = document.getElementById("loading");
+        var toggleElement = document.getElementById("toggle");
         var value;
+        var toggle;
 
         function activateIframe() {
             if (!value) {
@@ -235,8 +296,15 @@
             activateIframe();
         }
 
+        toggleElement.addEventListener("change", function() {
+            toggle = toggleElement.checked;
+            document.streamMode = toggle;
+            console.log(toggle)
+        });
+
         window.addEventListener("load", function() {
             input.value = window.localStorage.getItem("recentVisitedSite");
+            toggle = document.streamMode;
         });
     </script>
 </html>
