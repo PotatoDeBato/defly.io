@@ -101,27 +101,6 @@
             left: -50px;
             opacity: 20%;
         }
-        #loading {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: rgb(59, 39, 99);
-            display: none;
-            z-index: 100;
-        }
-        #loader {
-            border: 16px solid rgb(43, 24, 81);
-            border-radius: 50%;
-            border-top: 16px solid rgb(216, 176, 230);
-            width: 120px;
-            height: 120px;
-            animation: spin 2s linear infinite;
-            margin: auto;
-            position: relative;
-            top: 30vh;
-        }
         #socials {
             position: absolute;
             bottom: 20px;
@@ -178,9 +157,9 @@
     <body>
         <img id="background" src="https://as1.ftcdn.net/v2/jpg/02/33/47/14/1000_F_233471486_WIOAYpd2Rm1rWiVHcSwprEgCTTdaY6gu.jpg">
         <div id="start">
-            <h1>defly<span>hub</span></h1>
+            <h1>defly.<span>hub</span></h1>
             <input id="input" value="https://defly.io/#1-use4:3005">
-            <button id="button" onclick="activateIframe()">Play</button>
+            <button id="button" onclick="activate()">Play</button>
             <div class="suggestions">
                 <button class="suggest" onclick="changeInput('https\://defly.io/#1-use4:3005')">teams use3005</button>
                 <button class="suggest" onclick="changeInput('https\://defly.io/?skin-editor#1-use4:3005')">teams use3005 + se</button>
@@ -199,40 +178,22 @@
             <img id="pfp" src="https://images-ext-2.discordapp.net/external/wL4zcdhV6Z3oEJFK2v6-GWpmpVh6rsjn8a1n-RhaWBs/%3Fsize%3D4096/https/cdn.discordapp.com/avatars/912007261650571325/1193003e6e168d2767c8f59a91e51de0.png?width=538&height=538">
             <h2>Created by Potato!#3728</h2>
         </div>
-        <div id="loading">
-            <h1>Loading...</h1>
-            <div id="loader"></div>
-        </div>
     </body>
     <script>
         var start = document.getElementById("start");
-        var iframe = document.createElement('iframe');
         var input = document.getElementById("input");
         var button = document.getElementById("button");
-        var loading = document.getElementById("loading");
         var value;
 
-        function activateIframe() {
+        function activate() {
             if (!value) {
                 value = input.value;
             }
-            console.log(input)
-            iframe.src = value;
-            iframe.muted = true;
-            start.style.display = "none";
-            iframe.style.border = "none";
-            document.body.appendChild(iframe);
-
             window.localStorage.setItem("recentVisitedSite", value);
-            loading.style.display = "block";
-            iframe.addEventListener("load", function() {
-                loading.style.display = "none";
-                start.style.display = "none";
-            });
         }
         function changeInput(txt) {
             value = txt;
-            activateIframe();
+            window.open(txt);
         }
 
         window.addEventListener("load", function() {
