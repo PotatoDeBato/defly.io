@@ -191,10 +191,12 @@
             }
             window.localStorage.setItem("recentVisitedSite", value);
             window.open(value);
+            location.reload();
         }
         function changeInput(txt) {
             value = txt;
             window.open(txt);
+            location.reload();
         }
 
         window.addEventListener("load", function() {
