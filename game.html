@@ -1,184 +1,105 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="shortcut icon" href="https://defly.io/favicon/android-icon-192x192.png">
-    <link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <title>defly.io</title>
     <style>
-        * {
-            font-family: monospace;
+        :root{
+            --bg:#070425;
+            --panel:#2b1851;
+            --panel-hover:#3b2763;
+            --accent:#d8b0e6;
+            --muted-accent:rgba(216,176,230,0.12);
         }
-        body {
-            position: absolute;
-            inset: 0;
-            margin: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background: rgb(7, 4, 37);
-            animation: fade 1s linear;
+        *,*::before,*::after{box-sizing:border-box}
+        html,body{height:100%;margin:0}
+        body{
+            font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', 'Segoe UI Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'Courier New', monospace;
+            background:var(--bg);
+            color:var(--accent);
+            -webkit-font-smoothing:antialiased;
+            -moz-osx-font-smoothing:grayscale;
+            animation:fade 400ms linear;
+            min-height:100vh;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            padding:2rem;
+            overflow:auto;
         }
-        iframe {
-            position: absolute;
-            inset: 0;
-            margin: 0;
-            width: 100%;
-            height: 100%;
+        /* background artwork */
+        #background{
+            position:fixed;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.2;z-index:-1;
         }
-        #input {
-            position: absolute;
-            top: 40vh;
-            left: 35vw;
-            width: 26.8vw;
-            height: 5vh;
-            padding: 30px;
-            font-size: 30px;
-            border-radius: 10px;
-            border: none;
-            background-color: rgb(43, 24, 81);
-            color: rgb(216, 176, 230);
+        /* card */
+        #start{
+            width:clamp(360px,92%,1100px);
+            background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+            border-radius:14px;padding:2.5rem;display:flex;flex-direction:column;align-items:center;gap:0.5rem;
+            box-shadow:0 6px 30px rgba(0,0,0,0.6);
         }
-        #input:focus {
-            /**outline: rgb(7, 4, 37) solid 10px;**/
-            outline: none;
-            box-shadow: 0 0 20px 3px rgb(7, 4, 37), 0 0 10px -3px rgb(216, 176, 230);
+        h1{font-family:inherit;font-weight:700;margin:0;text-align:center;font-size:clamp(1.8rem,5vw,3.5rem);line-height:1}
+        h1 span{color:var(--panel)}
+
+        /* controls */
+        #input{text-align:center;width:100%;padding:2.25rem 1.5rem;font-size:clamp(22px,3.2vw,32px);border-radius:12px;border:none;background:var(--panel);color:var(--accent);min-height:72px;font-family:inherit;font-weight:700}
+        #input::placeholder{color:rgba(216,176,230,0.6);font-family:inherit;font-weight:600}
+        #input:focus{outline:none;box-shadow:0 0 20px 3px var(--muted-accent)}
+        #button{padding:1.15rem 1rem;font-size:clamp(22px,3.2vw,32px);border-radius:12px;border:none;background:var(--panel);color:var(--accent);cursor:pointer;width:100%;min-height:72px;font-family:inherit;font-weight:700}
+        #button:hover{background:var(--panel-hover)}
+
+        /* suggestions */
+        .suggestions{display:flex;flex-wrap:wrap;gap:0.4rem;justify-content:center;width:100%}
+        .suggest{flex:1 1 calc(33% - 0.4rem);min-width:120px;padding:1.1rem 0.8rem;font-size:1.05rem;border-radius:12px;border:none;background:var(--panel);color:var(--accent);cursor:pointer;display:flex;align-items:center;justify-content:center;min-height:72px;font-family:inherit;font-weight:700}
+        .suggest:hover{background:var(--panel-hover)}
+
+        /* socials + credit */
+        #socials{display:flex;gap:0.5rem;align-items:center;justify-content:center}
+        #socials img{width:48px;height:48px;border-radius:8px}
+        h2{margin:0;font-size:0.95rem;color:var(--accent);opacity:0.95}
+
+        /* larger layouts */
+        @media (min-width:740px){
+            #start{padding:3rem;gap:0.75rem}
+            /* keep controls the same width as input on larger screens */
+            .suggest{flex:1 1 calc(33% - 0.4rem)}
+            #button{width:100%}
         }
-        #button {
-            position: absolute;
-            top: 55vh;
-            left: 35vw;
-            width: 30vw;
-            height: 8vh;
-            font-size: 30px;
-            border-radius: 10px;
-            border: none;
-            background-color: rgb(43, 24, 81);
-            color: rgb(216, 176, 230);
-        }
-        #button:hover {
-            background-color: rgb(59, 39, 99);
-        }
-        .suggest:hover {
-            background-color: rgb(59, 39, 99);
-        }
-        .suggest {
-            padding: 20px;
-            font-size: 20px;
-            border-radius: 10px;
-            border: none;
-            background-color: rgb(43, 24, 81);
-            color: rgb(216, 176, 230);
-            display: inline-flex;
-            width: 9.8vw;
-            height: 8vh;
-        }
-        .suggestions {
-            position: absolute;
-            left: 35vw;
-            top: 67vh;
-        }
-        #two {
-            position: relative;
-            top: 58.5vh;
-        }
-        h1 {
-            font-family: 'Anuphan', sans-serif;
-            font-size: 50pt;
-            font-weight: 700;
-            text-align: center;
-            color: rgb(216, 176, 230);
-            position: relative;
-            top: 20vh;
-        }
-        h1 span {
-            color: rgb(59, 39, 99);
-            font-weight: 700;
-        }
-        #background {
-            width: 110vw;
-            height: 110vh;
-            position: absolute;
-            top: 0px;
-            left: -50px;
-            opacity: 20%;
-        }
-        #socials {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-        }
-        #socials img {
-            width: 60px;
-            height: 60px;
-            margin: 5px;
-        }
-        #pfp {
-            position: absolute;
-            top: 30px;
-            left: 30px;
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-        }
-        h2 {
-            color:rgb(216, 176, 230);
-            position: absolute;
-            top: 60px;
-            left: 220px;
-            font-size: 30px;
-        }
-        #pfp:hover + h2 {
-            animation: rotate 0.1s linear;
-        }
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-        @keyframes fade {
-            0% {
-                opacity: 0;
-            }
-        }
-        @keyframes rotate {
-            0% {
-                transform: rotate(0deg);
-            }
-            50% {
-                transform: rotate(1deg);
-            }
-            100% {
-                transform: rotate(0deg);
-            }
-        }
+
+        @keyframes fade{from{opacity:0}to{opacity:1}}
     </style>
-    <body>
-        <img id="background" src="https://as1.ftcdn.net/v2/jpg/02/33/47/14/1000_F_233471486_WIOAYpd2Rm1rWiVHcSwprEgCTTdaY6gu.jpg">
-        <div id="start">
-            <h1>defly.<span>hub</span></h1>
-            <input id="input" value="https://defly.io/#1-use4:3005">
-            <button id="button" onclick="activate()">Play</button>
-            <div class="suggestions">
-                <button class="suggest" onclick="changeInput('https\://defly.io/#1-use9:3005')">teams use3005</button>
-                <button class="suggest" onclick="changeInput('https\://defly.io/?skin-editor#1-use9:3005')">teams use3005 + se</button>
-                <button class="suggest" onclick="changeInput('https\://defly.io/#1-use9:3015')">teams use3015</button>
-            </div>
-            <div class="suggestions" id="two">
-                <button class="suggest" onclick="changeInput('https\://defly.io/#2-use9:3002')">defuse use3002</button>
-                <button class="suggest" onclick="changeInput('https\://defly.io/?playEpicTourney')">elite tourney</button>
-                <button class="suggest" onclick="changeInput('https\://defly.io/#4-use9:3004')">1v1 arena use3004</button>
-            </div>
-            <div id="socials">
-                <a href="https://www.youtube.com/channel/UCmmL-rF2yfxAzVtesBZtovw" target="_blank"><img src="https://www.iconpacks.net/icons/2/free-youtube-logo-icon-2431-thumb.png"></a>
-                <a href="https://discord.com/invite/NXuuhv7" target="_blank"><img src="https://static.vecteezy.com/system/resources/previews/006/892/625/original/discord-logo-icon-editorial-free-vector.jpg"></a>
-                <a href="https://defly.io/" target="_blank"><img src="https://defly.io/favicon/android-icon-192x192.png"></a>
-            </div>
-            <img id="pfp" src="https://github.com/PotatoDeBato/defly.io/blob/main/PFP_Summer.png?raw=true" width="538" height="538">
-            <h2>Created by Potato!#3728</h2>
+</head>
+<body>
+    <img id="background" src="https://as1.ftcdn.net/v2/jpg/02/33/47/14/1000_F_233471486_WIOAYpd2Rm1rWiVHcSwprEgCTTdaY6gu.jpg" alt="background">
+    <div id="start">
+        <h1>defly.<span>hub</span></h1>
+        <input id="input" value="https://defly.io/#1-use4:3005" aria-label="Game URL">
+        <button id="button" onclick="activate()">Play</button>
+        <div class="suggestions">
+            <button class="suggest" onclick="changeInput('https\://defly.io/#1-use9:3005')">teams use3005</button>
+            <button class="suggest" onclick="changeInput('https\://defly.io/?skin-editor#1-use9:3005')">teams use3005 + se</button>
+            <button class="suggest" onclick="changeInput('https\://defly.io/#1-use9:3015')">teams use3015</button>
         </div>
-    </body>
+        <div class="suggestions" id="two">
+            <button class="suggest" onclick="changeInput('https\://defly.io/#2-use9:3002')">defuse use3002</button>
+            <button class="suggest" onclick="changeInput('https\://defly.io/#2-use9:3012')">defuse use3012</button>
+            <button class="suggest" onclick="changeInput('https\://defly.io/#4-use9:3004')">1v1 arena use3004</button>
+        </div>
+        <div class="suggestions" id="three">
+            <button class="suggest" onclick="changeInput('https\://defly.io/?playEpicTourney')">elite tourney</button>
+            <button class="suggest" onclick="changeInput('https\://defly.io/')">homepage</button>
+            <button class="suggest" onclick="pasteFromClipboard()">clipboard</button>
+        </div>
+        <div id="socials">
+            <a href="https://www.youtube.com/channel/UCmmL-rF2yfxAzVtesBZtovw" target="_blank" rel="noopener"><img src="https://www.iconpacks.net/icons/2/free-youtube-logo-icon-2431-thumb.png" alt="YouTube"></a>
+            <a href="https://discord.com/invite/NXuuhv7" target="_blank" rel="noopener"><img src="https://static.vecteezy.com/system/resources/previews/006/892/625/original/discord-logo-icon-editorial-free-vector.jpg" alt="Discord"></a>
+            <a href="https://defly.io/" target="_blank" rel="noopener"><img src="https://defly.io/favicon/android-icon-192x192.png" alt="Defly"></a>
+        </div>
+        <h2>Created by potatodebato</h2>
+    </div>
     <script>
         var start = document.getElementById("start");
         var input = document.getElementById("input");
@@ -186,9 +107,7 @@
         var value;
 
         function activate() {
-            if (!value) {
-                value = input.value;
-            }
+            if (!value) value = input.value;
             window.localStorage.setItem("recentVisitedSite", value);
             window.open(value);
             location.reload();
@@ -200,8 +119,27 @@
             location.reload();
         }
 
+        async function pasteFromClipboard() {
+            if (!navigator.clipboard || !navigator.clipboard.readText) {
+                alert('Clipboard API not supported in this browser.');
+                return;
+            }
+            try {
+                const text = await navigator.clipboard.readText();
+                if (text && text.trim().length > 0) {
+                    changeInput(text.trim());
+                } else {
+                    alert('Clipboard is empty or contains no text.');
+                }
+            } catch (err) {
+                alert('Unable to read clipboard: ' + (err && err.message ? err.message : err));
+            }
+        }
+
         window.addEventListener("load", function() {
-            input.value = window.localStorage.getItem("recentVisitedSite");
+            var recent = window.localStorage.getItem("recentVisitedSite");
+            if (recent) input.value = recent;
         });
     </script>
+</body>
 </html>
